@@ -1,89 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
-    {% comment %} Toggle {% endcomment %}
-    <p class="d-inline-flex gap-1">
-    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-      Courses Table Content
-    </a>
-    {% comment %} endtoggle {% endcomment %}
-    {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      Button with data-bs-target
-    </p>  
-    </button> {% endcomment %}
-
-  {% comment %} table {% endcomment %}
-  <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>    </div>
-  </div>
-  {% comment %} endtable {% endcomment %}
-
-  {% comment %} card {% endcomment %}
-  {% for uni in University %}
-  <div class="card">
-    <h5 class="card-header">University</h5>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-  </div>
-  {% endfor %}
-  {% comment %} endcard {% endcomment %}
-
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
-  
-  {% comment %} Modal {% endcomment %}
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Create uni
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+    <form action="" method="post"> {% csrf_token %}
+      <!-- {% comment %} Modal {% endcomment %} -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" name="uni_name" class="form-control mb-2" placeholder="University Name">
+            <input type="text" name="daad_url" class="form-control" placeholder="Daad url">
+            <!-- <input type="text" name="uni_name" class="form-control" placeholder="University Name"> -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" name="buttonType" value="create_uni" class="btn btn-primary">Create</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   {% comment %} endModal {% endcomment %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary mb-2 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Create University
+    </button>
+    <!-- modal -->
+
+  <br>
+
+
+
+  {% for uni in university %}
+  <div class="card mb-2 mx-2">
+    <h5 class="card-header">{{uni.name}}</h5>
+    <div class="card-body">
+      <h5 class="card-title">daad url: <a href="https:/{{uni.daad_url}}" target="_blank">{{uni.daad_url}}</a></h5>
+      <p class="card-text">Check the courses for {{uni.name}} buddy all the best!</p>
+      {% comment %} Toggle {% endcomment %}
+      <p class="d-inline-flex gap-1">
+      <a class="btn btn-primary mx-2" data-bs-toggle="collapse" href="#collapseExample{{uni.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Courses Table Content
+      </a>
+      {% comment %} endtoggle {% endcomment %}
+      {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Button with data-bs-target
+      </p>  
+      </button> {% endcomment %}
+  
+    {% comment %} table {% endcomment %}
+    <div class="collapse" id="collapseExample{{uni.id}}">
+      <div class="card card-body">
+          <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <button type="submit" class="btn btn-warning btn-sm" name="buttonType" value="save_course">Save</button>
+                    <button type="submit" class="btn btn-danger btn-sm" name="buttonType" value="delete_course">Delete</button>
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Course</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for course in uni.courses.all %}
+                <tr>
+                  <th scope="row"><input type="checkbox" name="" id=""></th>
+                  <td><div contenteditable>{{course.name}}</div></td>
+                  <!-- <td><input type="datetime-local" name="" value="{{course.start_date}}" id=""></td>
+                  <td><input type="datetime-local" name=""  value="{{course.end_date}}" id=""></td> -->
+                  <td>{{course.start_date}}</td>
+                  <td>{{course.end_date}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>    </div>
+    </div>
+    {% comment %} endtable {% endcomment %}
+  
+    </div>
+  </div>
+  {% endfor %}
+
+</form>
 
 {% endblock %} 
