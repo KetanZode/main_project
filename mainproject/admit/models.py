@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Universitiy(models.Model):
+class University(models.Model):
     name = models.CharField(max_length=300, null=True, blank=True)
     daad_url = models.URLField(max_length=300, null=True, blank=True)
     official_url = models.URLField(max_length=300, null=True, blank=True)
