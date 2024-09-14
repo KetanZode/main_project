@@ -12,6 +12,7 @@ class Course(models.Model):
     name = models.CharField(max_length=300, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     form_in = models.BooleanField(null=True, blank=True)
+    course_category = models.ForeignKey('CourseCategory', on_delete=models.SET_NULL ,null=True, blank=True, related_name='courses')
     prerequisites = models.ManyToManyField('Prerequisite', related_name='courses', null=True, blank=True)
     prereq_completed = models.BooleanField(default=False, null=True, blank=True)
     applied = models.BooleanField(default=False, null=True, blank=True)
@@ -22,6 +23,10 @@ class Course(models.Model):
     additional_url = models.URLField(max_length=500, null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
+
+class CourseCategory(models.Model):
+    choices = [('Data Science','Data Science'),('Artificial Intellegence','Artificial Intellegence'),('Computer Science','Computer Science')]
+    name = models.CharField(max_length=200, choices=choices)
 
 class Prerequisite(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)

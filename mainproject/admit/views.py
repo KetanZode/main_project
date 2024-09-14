@@ -4,10 +4,11 @@ from .models import *
 # Create your views here.
 
 class MainView(View):
-    def get(self, request):
+    def get(self, request, searched_value=""):
         university = University.objects.all()
         context = {
-            'university' : university
+            'university' : university.filter(name__contains=searched_value),
+            'searched_value':searched_value
         }
         return render(request, 'main.html', context)
 
@@ -19,7 +20,11 @@ class MainView(View):
         if button_type == 'create_uni':
             name = request.POST.get('uni_name')
             daad_url = request.POST.get('daad_url')   
-            University.objects.create(name=name,daad_url=daad_url)  
+            University.objects.create(name=name,daad_url=daad_url) 
+
+        if button_type == 'search':
+            searched_value = request.POST.get('searched_value')
+            return self.get(request, searched_value=searched_value)
 
         return self.get(request)
 

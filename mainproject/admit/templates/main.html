@@ -2,6 +2,12 @@
 
 {% block content %}
     <form action="" method="post"> {% csrf_token %}
+      
+      <!-- Search -->
+      <input class="me-2 mb-2"  name="searched_value" value="{{searched_value}}" type="search" placeholder="Search Universities" aria-label="Search">
+      <button type="submit" name="buttonType" value="search" class="btn btn-success btn-sm mb-2" type="submit">Search</button>
+      <!-- search -->
+
       <!-- {% comment %} Modal {% endcomment %} -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -24,10 +30,11 @@
     </div>
   {% comment %} endModal {% endcomment %}
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary mb-2 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary btn-sm mb-2 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Create University
     </button>
     <!-- modal -->
+
 
   <br>
 
@@ -57,26 +64,35 @@
               <thead>
                 <tr>
                   <th scope="col">
-                    <button type="submit" class="btn btn-warning btn-sm" name="buttonType" value="save_course">Save</button>
-                    <button type="submit" class="btn btn-danger btn-sm" name="buttonType" value="delete_course">Delete</button>
+                    <!-- <button type="submit" class="btn btn-warning btn-sm" name="buttonType" value="save_course">Save</button>
+                    <button type="submit" class="btn btn-danger btn-sm" name="buttonType" value="delete_course">Delete</button> -->
+                    <!-- <input type="hidden" name="university-{{uni.id}}" value="{{uni.id}}"> -->
+                    <button type="submit" class="btn btn-outline-primary btn-sm" name="buttonType" value="checkcourse-{{uni.id}}">Check course</button>
                   </th>
                 </tr>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Course</th>
+                  <th scope="col">Course Category</th>
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
+                  <th scope="col">Applied</th>
+
                 </tr>
               </thead>
               <tbody>
                 {% for course in uni.courses.all %}
                 <tr>
-                  <th scope="row"><input type="checkbox" name="" id=""></th>
                   <td><div contenteditable>{{course.name}}</div></td>
+                  <td> {{course.course_category.name}}</td>
                   <!-- <td><input type="datetime-local" name="" value="{{course.start_date}}" id=""></td>
                   <td><input type="datetime-local" name=""  value="{{course.end_date}}" id=""></td> -->
                   <td>{{course.start_date}}</td>
                   <td>{{course.end_date}}</td>
+                  {% if course.applied == True %}
+                  <th scope="row"><input type="checkbox" name="" id="" checked disabled></th>
+                  {% else %}
+                  <th scope="row"><input type="checkbox" name="" id=""  disabled></th>
+                  {% endif %}
                 </tr>
                 {% endfor %}
               </tbody>
